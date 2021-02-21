@@ -14,8 +14,8 @@ function CourseManager() {
 
     const handleSave = async e => {
         let title = document.getElementById('txt-title').value;
-        if(title.length > 0) {
-            await service.createCourse({ title: title });
+        if (title.length > 0) {
+            await service.createCourse({title: title});
             document.getElementById('txt-title').value = ``;
             reloadCourses();
         }
@@ -27,45 +27,37 @@ function CourseManager() {
     }
 
     return (
-        <div className="container-fluid">
-            <div className="row mt-30">
-                <div className="col-5">
-                    <span className="h3">Course Manager</span>
+        <div className="container-fluid course-list">
+            <div className="row header">
+                <div className="col-1 col-md-1 text-center bars">
+                    <i className="fa fa-bars"></i>
                 </div>
-                <div className="col-5 text-right">
-                    <input type="text" id="txt-title" placeholder="Title..." className="form-control" />
+                <div className="d-none d-md-block col-md-3 col-lg-2  text-course-manager">
+                    <p className="m-0">Course Manager</p>
                 </div>
-                <div className="col-2 text-right">
-                    <button className="btn btn-primary" onClick={handleSave}>
-                        <i className="fa fa-plus-circle mr-2"></i>Add New
-                    </button>
+                <div className="col-8 col-md-6 col-lg-7">
+                    <input type="text" id="txt-title" className="form-control txt-title"
+                           placeholder="New Course Title"/>
                 </div>
-            </div>
-            <div className="row mt-20">
-                <div className="col">
-                    <span className="h5">Recent Documents</span>
-                </div>
-                <div className="col">
-                    <span className="h5">Owned by me</span>
-                </div>
-                <div className="col text-right fa-icons">
-                    <Link to="/courses/table">
-                        <i className="fa fa-tasks" />
-                    </Link>
-                    <Link to="/courses/grid">
-                        <i className="fa fa-folder" />
-                    </Link>
+                <div className="col-2 col-md-2">
+                    <div className="plus-btn mx-auto bg-danger">
+                        <i className="fa fa-plus" onClick={handleSave}></i>
+                    </div>
                 </div>
             </div>
-            <div className="row mt-20">
+            <div className="row">
                 <div className="col">
                     <Route path="/courses/table" exact={true}>
-                        <CourseTable courses={courses} reload={reloadCourses} />
+                        <CourseTable courses={courses} reload={reloadCourses}/>
                     </Route>
                     <Route path="/courses/grid" exact={true}>
-                        <CourseGrid courses={courses} reload={reloadCourses} />
+                        <CourseGrid courses={courses} reload={reloadCourses}/>
                     </Route>
                 </div>
+            </div>
+
+            <div className="plus-btn mx-auto fixed-btn bg-danger">
+                <i className="fa fa-plus" onClick={handleSave}></i>
             </div>
         </div>
     );

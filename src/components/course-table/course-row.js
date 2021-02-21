@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import courseService from '../../services/course-service';
+import {Link} from "react-router-dom";
 
 function CourseRow(props) {
 
@@ -12,14 +13,14 @@ function CourseRow(props) {
             title: title
         }
         const status = await courseService.updateCourse(editingId, obj);
-        if(status === 200) {
+        if (status === 200) {
             setEditingId(null);
             props.reload();
         }
     }
 
     const handleDelete = async id => {
-        if(window.confirm(`Are you sure you want to delete?`)) {
+        if (window.confirm(`Are you sure you want to delete?`)) {
             const status = await courseService.deleteCourse(id);
             if (status === 200) {
                 props.reload();
@@ -28,19 +29,27 @@ function CourseRow(props) {
     }
 
     return (
-        <tr className="course-row">
-            <td>
-                {!editingId && props.course.title}
-                {editingId && <input type="text" className="form-control" onChange={e => setTitle(e.target.value)} value={title} />}
-            </td>
-            <td>{props.course._nuid === "001040845" ? "Me" : ""}</td>
-            <td>{props.course._updatedAt}</td>
-            <td className="text-right">
-                {!editingId && <i className="fa fa-edit" title="Edit" onClick={e => {setTitle(props.course.title); setEditingId(props.course._id)}}></i>}
-                {editingId && <i className="fa fa-check green" title="Save" onClick={e => handleSave(props.course)}></i>}
-                <i className="fa fa-times red" title="Delete" onClick={e =>handleDelete(props.course._id)}></i>
-            </td>
-        </tr>
+        <div className="row">
+            <div className="col-10 col-md-5 col-lg-5">
+                {!editingId && <Link to="/editor" className="">
+                    <i className="fa fa-book mr-3 text-primary"></i>
+                    {props.course.title}
+                </Link> }
+                {editingId &&
+                <input type="text" className="form-control" onChange={e => setTitle(e.target.value)} value={title}/>}
+            </div>
+            <div className="d-none d-md-block col-md-2 col-lg-2">me</div>
+            <div className="d-none d-md-block col-md-4 col-lg-3">{props.course._updatedAt}</div>
+            <div className="col-2 text-right col-sm-2 col-md-1 col-lg-2">
+                {!editingId && <i className="fa fa-edit mr-4" title="Edit" onClick={e => {
+                    setTitle(props.course.title);
+                    setEditingId(props.course._id)
+                }}></i>}
+                {editingId &&
+                <i className="fa fa-check mr-4" title="Save" onClick={e => handleSave(props.course)}></i>}
+                <i className="fa fa-times mr-4" onClick={e => handleDelete(props.course._id)}></i>
+            </div>
+        </div>
     );
 }
 

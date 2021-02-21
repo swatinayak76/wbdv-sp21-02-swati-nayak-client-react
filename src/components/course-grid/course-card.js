@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import courseService from "../../services/course-service";
-import imgSrc from '../../images/logo192.png';
+import imgSrc from '../../images/bootstrap-logo.png';
 
 function CourseCard(props) {
     const [editingId, setEditingId] = useState(null);
@@ -35,9 +35,10 @@ function CourseCard(props) {
                 {!editingId && <h5>{props.course.title}</h5>}
                 {editingId &&
                 <input type="text" className="form-control" onChange={e => setTitle(e.target.value)} value={title}/>}
-                <a href="/editor" className="btn btn-primary">
+                <p>Some description</p>
+                <Link to="/editor" className="btn btn-primary">
                     Go somewhere
-                </a>
+                </Link>
                 {!editingId && <i className="fa fa-edit m-2" title="Edit" onClick={e => {
                     setTitle(props.course.title);
                     setEditingId(props.course._id)
